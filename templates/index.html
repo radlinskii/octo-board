@@ -6,7 +6,20 @@
     <link href="/static/style/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>Welcome to OctoBoard, {{ .Name }}!</h1>
+<h1>Welcome to OctoBoard</h1>
+<form action="/" method="GET">
+    <input type="text" name="labels" title="labels">
+    <input type="submit" value="Save">
+</form>
+<div class="issuesTable">
+{{ range .Issues}}
+    <div class="issue">
+        <h1><a href="{{ .URL}}">{{ .Title }}</a></h1>
+        <p>{{ .Body }}</p>
+        <p>{{ .CommentsNumber }}</p>
+    </div>
+{{end}}
+</div>
 <img src="/static/img/spidertocat.png"/>
 </body>
 </html>
