@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-var templates = template.Must(template.ParseFiles(filepath.Join("octoboard", "tmpl", "index.html")))
+var templates = template.Must(template.ParseFiles(filepath.Join("templates", "index.html")))
 
 type Person struct {
 	Name string
@@ -16,6 +16,7 @@ type Person struct {
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	names, ok := r.URL.Query()["name"]
 	if !ok || len(names[0]) < 1 {
+		log.Println(r.URL)
 		log.Println("Url Parameter 'name' is missing")
 		return
 	}
@@ -27,6 +28,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", rootHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
