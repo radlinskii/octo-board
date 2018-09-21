@@ -76,18 +76,18 @@ func getRepositoryFullName(url string) string {
 }
 
 func buildQuery(query *string, r *http.Request, opt string) string {
-	labelsQuery, ok := r.URL.Query()[opt]
-	if !ok || len(labelsQuery[0]) < 1 {
+	queryParameters, ok := r.URL.Query()[opt]
+	if !ok || len(queryParameters[0]) < 1 {
 		log.Println(r.URL)
 		log.Printf("Url Parameter %s is missing", opt)
 		return ""
 	}
-	labels := labelsQuery[0]
-	labelsTable := strings.Split(labels, ",")
-	for _, label := range labelsTable {
-		*query += " " + opt + `:"` + strings.Trim(label, " ") + `"`
+	parameters := queryParameters[0]
+	parametersTable := strings.Split(parameters, ",")
+	for _, parameter := range parametersTable {
+		*query += " " + opt + `:"` + strings.Trim(parameter, " ") + `"`
 	}
-	return labels
+	return parameters
 }
 
 func fetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {
