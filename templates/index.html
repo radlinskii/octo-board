@@ -14,7 +14,8 @@
 <div class="issuesTable">
 {{ range .Issues}}
     <div class="issue">
-        <h1><a href="{{ .URL}}">{{ .Title }}</a></h1>
+        <h3>{{ .Repo }}</h3>
+        <h1><a href="{{ .HTMLURL}}">#{{ .Number }} {{ .Title }}</a></h1>
         <p>{{ .Body }}</p>
         <p>{{ .CommentsNumber }}</p>
     </div>

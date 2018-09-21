@@ -13,13 +13,17 @@ import (
 
 var templates = template.Must(template.ParseFiles(filepath.Join("templates", "index.html")))
 
+// Content is a type that will be dispatched to home page template.
 type Content struct {
 	Issues []GithubIssue
 }
 
+// GithubIssue is a type that holds needed values of Github issue.
 type GithubIssue struct {
 	Title          string
-	URL            string
+	Repo           string
+	HTMLURL        string
+	Number         int
 	Body           string
 	CommentsNumber int
 }
@@ -41,10 +45,12 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	var issues []GithubIssue
 	for _, issue := range issuesPayload.Issues {
 		issues = append(issues, GithubIssue{
-			Title:          *issue.URL,
-			URL:            *issue.URL,
-			Body:           *issue.Body,
-			CommentsNumber: *issue.Comments,
+			Title:          issue.GetTitle(),
+			Repo:           getRepositoryFullName(issue.GetRepositoryURL()),
+			HTMLURL:        issue.GetURL(),
+			Number:         issue.GetNumber(),
+			Body:           issue.GetBody(),
+			CommentsNumber: issue.GetComments(),
 		})
 	}
 
@@ -52,6 +58,10 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func getRepositoryFullName(url string) string {
+	return strings.Replace(url, "https://api.github.com/repos/", "", 1)
 }
 
 func buildQuery(query *string, r *http.Request, opt string) {
