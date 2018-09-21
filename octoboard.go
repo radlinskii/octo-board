@@ -11,11 +11,12 @@ import (
 	"github.com/google/go-github/github"
 )
 
-var templates = template.Must(template.ParseFiles(filepath.Join("templates", "index.html")))
+var templates = template.Must(template.ParseFiles(filepath.Join("templates", "index.html"), filepath.Join("templates", "search.html")))
 
 // Content is a type that will be dispatched to home page template.
 type Content struct {
-	Issues []GithubIssue
+	Label, Organization, Language string
+	Issues                        []GithubIssue
 }
 
 // GithubIssue is a type that holds needed values of Github issue.
@@ -30,16 +31,24 @@ type GithubIssue struct {
 
 func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/", handleRoot)
+	http.HandleFunc("/search", handleSearch)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
+func handleRoot(w http.ResponseWriter, _ *http.Request) {
+	err := templates.ExecuteTemplate(w, "index.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func handleSearch(w http.ResponseWriter, r *http.Request) {
 	query := "is:open"
 
-	buildQuery(&query, r, "label")
-	buildQuery(&query, r, "language")
-	buildQuery(&query, r, "org")
+	label := buildQuery(&query, r, "label")
+	language := buildQuery(&query, r, "language")
+	org := buildQuery(&query, r, "org")
 
 	client := github.NewClient(nil)
 	issuesPayload, err := fetchIssues(client, query)
@@ -56,7 +65,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	err = templates.ExecuteTemplate(w, "index.html", Content{issues})
+	err = templates.ExecuteTemplate(w, "search.html", Content{Issues: issues, Label: label, Organization: org, Language: language})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -66,18 +75,19 @@ func getRepositoryFullName(url string) string {
 	return strings.Replace(url, "https://api.github.com/repos/", "", 1)
 }
 
-func buildQuery(query *string, r *http.Request, opt string) {
+func buildQuery(query *string, r *http.Request, opt string) string {
 	labelsQuery, ok := r.URL.Query()[opt]
 	if !ok || len(labelsQuery[0]) < 1 {
 		log.Println(r.URL)
 		log.Printf("Url Parameter %s is missing", opt)
-		return
+		return ""
 	}
 	labels := labelsQuery[0]
 	labelsTable := strings.Split(labels, ",")
 	for _, label := range labelsTable {
 		*query += " " + opt + `:"` + strings.Trim(label, " ") + `"`
 	}
+	return labels
 }
 
 func fetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {

@@ -6,13 +6,26 @@
     <link href="/static/style/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>Welcome to OctoBoard</h1>
 <form action="/search" method="GET">
     <input type="text" name="label" title="label" placeholder="label">
     <input type="text" name="language" title="language" placeholder="language">
     <input type="text" name="org" title="organization" placeholder="organization">
     <input type="submit" value="Save">
 </form>
-<img src="/static/img/spidertocat.png"/>
+<div><p>Label: {{ .Label }}</p><p>Language: {{ .Language }}</p><p>Organization: {{ .Organization }}</p></div>
+<div class="issuesTable">
+{{ range .Issues}}
+    <div class="issue">
+        <h3>{{ .Repo }} #{{ .Number }}</h3>
+        <h1><a href="{{ .HTMLURL}}">{{ .Title }}</a></h1>
+        <p>{{ .Body }}</p>
+        <p>{{ .CommentsNumber }}</p>
+    </div>
+{{ else }}
+    <p>
+        make sure you didn't make any typos
+    </p>
+{{end}}
+</div>
 </body>
 </html>
