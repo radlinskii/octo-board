@@ -33,21 +33,10 @@ func main() {
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	query := "is:open org:google language:go"
 
-	labelsQuery, ok := r.URL.Query()["labels"]
-	if !ok || len(labelsQuery[0]) < 1 {
-		log.Println(r.URL)
-		log.Println("Url Parameter 'labels' is missing")
-		return
-	} else {
-		labels := labelsQuery[0]
-		labelsTable := strings.Split(labels, ",")
-		for _, label := range labelsTable {
-			query += ` label:"` + strings.Trim(label, " ") + `"`
-		}
-	}
+	buildQuery(&query, r, "label")
 
 	client := github.NewClient(nil)
-	issuesPayload, err := FetchIssues(client, query)
+	issuesPayload, err := fetchIssues(client, query)
 
 	var issues []GithubIssue
 	for _, issue := range issuesPayload.Issues {
@@ -65,7 +54,21 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func FetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {
+func buildQuery(query *string, r *http.Request, opt string) {
+	labelsQuery, ok := r.URL.Query()[opt]
+	if !ok || len(labelsQuery[0]) < 1 {
+		log.Println(r.URL)
+		log.Printf("Url Parameter %s is missing", opt)
+		return
+	}
+	labels := labelsQuery[0]
+	labelsTable := strings.Split(labels, ",")
+	for _, label := range labelsTable {
+		*query += " " + opt + `:"` + strings.Trim(label, " ") + `"`
+	}
+}
+
+func fetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {
 	opts := &github.SearchOptions{Sort: "created", Order: "desc"}
 	res, _, err := client.Search.Issues(context.Background(), query, opts)
 	return res, err
