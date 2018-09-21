@@ -35,9 +35,11 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	query := "is:open org:google language:go"
+	query := "is:open"
 
 	buildQuery(&query, r, "label")
+	buildQuery(&query, r, "language")
+	buildQuery(&query, r, "org")
 
 	client := github.NewClient(nil)
 	issuesPayload, err := fetchIssues(client, query)
