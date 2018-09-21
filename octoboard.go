@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/google/go-github/github"
 )
@@ -30,17 +31,23 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	/*
-		labels, ok := r.URL.Query()["labels"]
-		if !ok || len(labels[0]) < 1 {
-			log.Println(r.URL)
-			log.Println("Url Parameter 'labels' is missing")
-			return
+	query := "is:open org:google language:go"
+
+	labelsQuery, ok := r.URL.Query()["labels"]
+	if !ok || len(labelsQuery[0]) < 1 {
+		log.Println(r.URL)
+		log.Println("Url Parameter 'labels' is missing")
+		return
+	} else {
+		labels := labelsQuery[0]
+		labelsTable := strings.Split(labels, ",")
+		for _, label := range labelsTable {
+			query += ` label:"` + strings.Trim(label, " ") + `"`
 		}
-		label := labels[0]
-	*/
+	}
+
 	client := github.NewClient(nil)
-	issuesPayload, err := FetchIssues(client)
+	issuesPayload, err := FetchIssues(client, query)
 
 	var issues []GithubIssue
 	for _, issue := range issuesPayload.Issues {
@@ -58,8 +65,8 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func FetchIssues(client *github.Client) (*github.IssuesSearchResult, error) {
-	opts := &github.SearchOptions{Sort: "created", Order: "asc"}
-	res, _, err := client.Search.Issues(context.Background(), "is:open org:google language:go label:\"good first issue\"", opts)
+func FetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {
+	opts := &github.SearchOptions{Sort: "created", Order: "desc"}
+	res, _, err := client.Search.Issues(context.Background(), query, opts)
 	return res, err
 }
