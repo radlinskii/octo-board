@@ -83,6 +83,7 @@ func buildQuery(query *string, r *http.Request, opt string) string {
 		return ""
 	}
 	parameters := queryParameters[0]
+	parameters = strings.Replace(parameters, `"`, "", -1)
 	parametersTable := strings.Split(parameters, ",")
 	for _, parameter := range parametersTable {
 		*query += " " + opt + `:"` + strings.Trim(parameter, " ") + `"`
