@@ -1,0 +1,21 @@
+{{ define "content" }}
+<div>
+    <p>Label: {{ .Label }}</p>
+    <p>Language: {{ .Language }}</p>
+    <p>Organization: {{ .Organization }}</p>
+</div>
+<div class="issuesTable">
+{{ range .Issues}}
+    <div class="issue">
+        <h3>{{ .Repo }} #{{ .Number }}</h3>
+        <h1><a href="{{ .HTMLURL}}">{{ .Title }}</a></h1>
+        <p>{{ .Body }}</p>
+        <p>{{ .CommentsNumber }}</p>
+    </div>
+{{ else }}
+    <p>
+        make sure you didn't make any typos
+    </p>
+{{end}}
+</div>
+{{ end }}

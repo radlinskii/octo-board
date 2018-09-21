@@ -3,15 +3,15 @@ package main
 import (
 	"context"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/google/go-github/github"
 )
-
-var templates = template.Must(template.ParseFiles(filepath.Join("templates", "index.html"), filepath.Join("templates", "search.html")))
 
 // Content is a type that will be dispatched to home page template.
 type Content struct {
@@ -29,45 +29,83 @@ type GithubIssue struct {
 	CommentsNumber int
 }
 
+func populateTemplates() map[string]*template.Template {
+	result := make(map[string]*template.Template)
+	const basePath = "templates"
+	layout := template.Must(template.ParseFiles(filepath.Join(basePath, "_layout.html")))
+	dir, err := os.Open(filepath.Join(basePath, "content"))
+	if err != nil {
+		panic("Failed to open template blocks directory: " + err.Error())
+	}
+	fis, err := dir.Readdir(-1)
+	if err != nil {
+		panic("Failed to read content directory: " + err.Error())
+	}
+	for _, fi := range fis {
+		fname := fi.Name()
+		f, err := os.Open(filepath.Join(basePath, "content", fname))
+		if err != nil {
+			panic("Failed to open template file: " + fname)
+		}
+		content, err := ioutil.ReadAll(f)
+		if err != nil {
+			panic("Failed to read content from template file: " + fname)
+		}
+		f.Close()
+		tmplt := template.Must(layout.Clone())
+		_, err = tmplt.Parse(string(content))
+		if err != nil {
+			panic("Failed to parse template: " + fname)
+		}
+		result[fname] = tmplt
+	}
+	return result
+}
+
 func main() {
+	templatesMap := populateTemplates()
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	http.HandleFunc("/", handleRoot)
-	http.HandleFunc("/search", handleSearch)
+	http.HandleFunc("/", handleRoot(templatesMap["index.html"]))
+	http.HandleFunc("/search", handleSearch(templatesMap["search.html"]))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-
-func handleRoot(w http.ResponseWriter, _ *http.Request) {
-	err := templates.ExecuteTemplate(w, "index.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+func handleRoot(tmplt *template.Template) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, _ *http.Request) {
+		err := tmplt.Execute(w, nil)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 }
 
-func handleSearch(w http.ResponseWriter, r *http.Request) {
-	query := "is:open"
+func handleSearch(tmplt *template.Template) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		query := "is:open"
 
-	label := buildQuery(&query, r, "label")
-	language := buildQuery(&query, r, "language")
-	org := buildQuery(&query, r, "org")
+		label := buildQuery(&query, r, "label")
+		language := buildQuery(&query, r, "language")
+		org := buildQuery(&query, r, "org")
 
-	client := github.NewClient(nil)
-	issuesPayload, err := fetchIssues(client, query)
+		client := github.NewClient(nil)
+		issuesPayload, err := fetchIssues(client, query)
 
-	var issues []GithubIssue
-	for _, issue := range issuesPayload.Issues {
-		issues = append(issues, GithubIssue{
-			Title:          issue.GetTitle(),
-			Repo:           getRepositoryFullName(issue.GetRepositoryURL()),
-			HTMLURL:        issue.GetURL(),
-			Number:         issue.GetNumber(),
-			Body:           issue.GetBody(),
-			CommentsNumber: issue.GetComments(),
-		})
-	}
+		var issues []GithubIssue
+		for _, issue := range issuesPayload.Issues {
+			issues = append(issues, GithubIssue{
+				Title:          issue.GetTitle(),
+				Repo:           getRepositoryFullName(issue.GetRepositoryURL()),
+				HTMLURL:        issue.GetURL(),
+				Number:         issue.GetNumber(),
+				Body:           issue.GetBody(),
+				CommentsNumber: issue.GetComments(),
+			})
+		}
 
-	err = templates.ExecuteTemplate(w, "search.html", Content{Issues: issues, Label: label, Organization: org, Language: language})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		err = tmplt.Execute(w, Content{Issues: issues, Label: label, Organization: org, Language: language})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 }
 
