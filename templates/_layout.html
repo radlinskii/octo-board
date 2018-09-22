@@ -2,18 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OctoBoard</title>
     <link href="/static/style/main.css" rel="stylesheet" type="text/css">
 {{ block "styles" . }}{{ end }}
 </head>
 <body>
-<h1><a href="/">OctoBoard</a></h1>
-<form action="/search" method="GET">
-    <input type="text" name="label" title="label" placeholder="label">
-    <input type="text" name="language" title="language" placeholder="language">
-    <input type="text" name="org" title="organization" placeholder="organization">
-    <input type="submit" value="Save">
-</form>
-{{ template "content" . }}
+<div class="pageWrapper">
+    <header>
+        <div class="pageTitle"><a href="/">OctoBoard</a></div>
+        <div class="form">
+            <form action="/search" method="GET">
+                <div class="input">
+                    <label for="label">Labels:</label>
+                    <input type="text" name="label" title="label" placeholder="bug, hacktoberfest">
+                </div>
+                <div class="input">
+                <label for="language">Language:</label>
+                <input type="text" name="language" title="language" placeholder="go">
+                </div>
+                <div class="input">
+                    <label for="org">Organization:</label>
+                    <input type="text" name="org" title="organization" placeholder="google">
+                </div>
+                <div class="input submit">
+                    <input type="submit" value="Search">
+                </div>
+            </form>
+        </div>
+    </header>
+    <main>
+        {{ template "content" . }}
+    </main>
+</div>
+<footer>
+    <a href="https://github.com/radlinskii/octo-board"><img src="/static/img/github-logo.svg"></a>
+</footer>
 </body>
 </html>
