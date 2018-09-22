@@ -17,7 +17,7 @@ header {
     display: grid;
     grid-template-columns: 30% 70%;
     background-color: #dddddd;
-    min-width: 360px;
+    min-width: 320px;
     box-shadow: 2px 2px 2px #aaa;
 }
 
@@ -26,7 +26,6 @@ header {
     grid-column: span 1;
     align-self: center;
     padding-left: 20px;
-
 }
 
 .pageTitle a {
@@ -91,14 +90,15 @@ main {
 }
 
 footer {
-    padding-left: 20px;
-    padding-bottom: 20px;
-    height: 60px;
+    padding: 20px;
+    height: 20px;
     justify-content: center;
 }
 
-footer img {
-    height: 60px;
+footer p span {
+    font-size: 0.8em;
+    position: relative;
+    bottom: 20px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -116,6 +116,11 @@ footer img {
 @media only screen and (max-width: 850px) {
     header {
         height: auto;
+    }
+
+    .pageTitle a {
+        font-size: 50px;
+        line-height: 50px;
     }
 
     .form form {

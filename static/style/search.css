@@ -23,7 +23,7 @@ body {
 
 .issuesTable {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: 10px;
 }
 
@@ -39,14 +39,29 @@ body {
 
 .issue h3 span {
     color: rgba(139, 0, 0, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.issue h3 {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .issue h2 {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0;
 }
 
 .issue h2 a {
     color: rgba(13, 18, 98, 0.89);
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .body {

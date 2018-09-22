@@ -1,22 +1,22 @@
-html {
-    position: relative;
+html,body {
+    margin: 0;
+    padding: 0;
     height: 100%;
 }
 
 body {
     background: aliceblue url("/static/img/spidertocat.png") no-repeat right top;
     background-size: 50% auto;
-    height: 100%;
 }
 
 .pageWrapper {
     min-height: 100%;
-    height: 100%;
-    margin-bottom: -80px;
+    position: relative;
 }
 
 footer {
     position: absolute;
+    bottom: 0;
 }
 
 header {
@@ -25,6 +25,7 @@ header {
 
 main {
     margin-top: 0;
+    padding-bottom: 40px;
 }
 
 h3 {
@@ -35,5 +36,31 @@ h3 {
     body {
         background: aliceblue url("/static/img/octocat.png") no-repeat right bottom;
         background-size: 50% auto;
+    }
+
+    .pageWrapper {
+        background-color: #f0f8ffcc;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    body {
+        background: aliceblue;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    .pageWrapper {
+        height: auto;
+        min-height: 0;
+    }
+
+    main {
+        padding-bottom: 0;
+    }
+
+    footer {
+        position: static;
+        padding-bottom: 10px;
     }
 }
