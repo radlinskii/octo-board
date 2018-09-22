@@ -95,7 +95,7 @@ func handleSearch(tmplt *template.Template) func(w http.ResponseWriter, r *http.
 			issues = append(issues, GithubIssue{
 				Title:          issue.GetTitle(),
 				Repo:           getRepositoryFullName(issue.GetRepositoryURL()),
-				HTMLURL:        issue.GetURL(),
+				HTMLURL:        issue.GetHTMLURL(),
 				Number:         issue.GetNumber(),
 				Body:           issue.GetBody(),
 				CommentsNumber: issue.GetComments(),
