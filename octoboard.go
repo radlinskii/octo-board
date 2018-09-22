@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/radlinskii/octo-board/viewmodel"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -12,22 +13,6 @@ import (
 
 	"github.com/google/go-github/github"
 )
-
-// Content is a type that will be dispatched to home page template.
-type Content struct {
-	Label, Organization, Language string
-	Issues                        []GithubIssue
-}
-
-// GithubIssue is a type that holds needed values of Github issue.
-type GithubIssue struct {
-	Title          string
-	Repo           string
-	HTMLURL        string
-	Number         int
-	Body           string
-	CommentsNumber int
-}
 
 func populateTemplates() map[string]*template.Template {
 	result := make(map[string]*template.Template)
@@ -95,9 +80,9 @@ func handleSearch(tmplt *template.Template) func(w http.ResponseWriter, r *http.
 		client := github.NewClient(nil)
 		issuesPayload, err := fetchIssues(client, query)
 
-		var issues []GithubIssue
+		var issues []viewmodel.GithubIssue
 		for _, issue := range issuesPayload.Issues {
-			issues = append(issues, GithubIssue{
+			issues = append(issues, viewmodel.GithubIssue{
 				Title:          issue.GetTitle(),
 				Repo:           getRepositoryFullName(issue.GetRepositoryURL()),
 				HTMLURL:        issue.GetHTMLURL(),
@@ -107,7 +92,7 @@ func handleSearch(tmplt *template.Template) func(w http.ResponseWriter, r *http.
 			})
 		}
 
-		err = tmplt.Execute(w, Content{Issues: issues, Label: label, Organization: org, Language: language})
+		err = tmplt.Execute(w, viewmodel.Content{Issues: issues, Label: label, Organization: org, Language: language})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
