@@ -83,4 +83,5 @@ body {
     position: relative;
     top: 8px;
     height: 24px;
+    z-index: 1;
 }
