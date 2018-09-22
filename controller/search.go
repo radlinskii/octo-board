@@ -51,11 +51,10 @@ func getRepositoryFullName(url string) string {
 }
 
 func buildQuery(query *string, r *http.Request, opt string) string {
-	queryParameters, ok := r.URL.Query()[opt]
-	if !ok || len(queryParameters[0]) < 1 {
+	parameters := r.URL.Query().Get(opt)
+	if len(parameters) < 1 {
 		return ""
 	}
-	parameters := queryParameters[0]
 	parameters = strings.Replace(parameters, `"`, "", -1)
 	parametersTable := strings.Split(parameters, ",")
 	for _, parameter := range parametersTable {
