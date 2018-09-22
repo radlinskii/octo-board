@@ -116,8 +116,6 @@ func getRepositoryFullName(url string) string {
 func buildQuery(query *string, r *http.Request, opt string) string {
 	queryParameters, ok := r.URL.Query()[opt]
 	if !ok || len(queryParameters[0]) < 1 {
-		log.Println(r.URL)
-		log.Printf("Url Parameter %s is missing", opt)
 		return ""
 	}
 	parameters := queryParameters[0]
