@@ -9,6 +9,10 @@ body {
     box-shadow: 2px 2px 2px #666;
 }
 
+.noFilters {
+    background-color: rgba(160, 74, 85, 0.62);
+}
+
 .labels {
     background-color: #5ba091;
 }

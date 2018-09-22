@@ -3,10 +3,14 @@
 {{ end }}
 {{ define "content" }}
 <div class="parameters">
-    {{ if  or .Label .Language .Organization }} Active Filters: {{ end }}
+    {{ if  or .Label .Language .Organization }}
+        active filters:
     {{ if .Label }}<p class="labels">Label: {{ .Label }}</p>{{ end }}
     {{ if .Language }}<p class="language">Language: {{ .Language }}</p>{{ end }}
     {{ if .Organization }}<p class="org">Organization: {{ .Organization }}</p>{{ end }}
+    {{ else }}
+        <p class="noFilters">no active filters</p>
+    {{ end }}
 </div>
 <div class="issuesTable">
 {{ range .Issues}}
