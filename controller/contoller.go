@@ -10,6 +10,8 @@ var (
 	searchController search
 )
 
+// StartUp is the main controller of the app.
+// Startup is handling static assets and setting up subcontrollers.
 func StartUp(templatesMap map[string]*template.Template) {
 	homeController.homeTemplate = templatesMap["home.html"]
 	searchController.searchTemplate = templatesMap["search.html"]
