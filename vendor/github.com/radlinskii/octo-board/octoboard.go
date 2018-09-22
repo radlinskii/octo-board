@@ -63,17 +63,12 @@ func populateTemplates() map[string]*template.Template {
 }
 
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		panic("Failed to load variable $PORT from environment")
-	}
-
 	templatesMap := populateTemplates()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", handleRoot(templatesMap["index.html"]))
 	http.HandleFunc("/search", handleSearch(templatesMap["search.html"]))
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":8080", nil)) // TODO PORT from env
 }
 func handleRoot(tmplt *template.Template) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, _ *http.Request) {

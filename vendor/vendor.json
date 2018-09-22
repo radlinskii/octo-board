@@ -1,0 +1,25 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "ma0yvcuA8AmE1VQMdW8+gRT36+U=",
+			"path": "github.com/google/go-github/github",
+			"revision": "c3e9de61cf0678e682ea2b98cf1301ae3a814bc8",
+			"revisionTime": "2018-09-12T00:12:58Z"
+		},
+		{
+			"checksumSHA1": "p3IB18uJRs4dL2K5yx24MrLYE9A=",
+			"path": "github.com/google/go-querystring/query",
+			"revision": "44c6ddd0a2342c386950e880b658017258da92fc",
+			"revisionTime": "2018-09-16T13:16:37Z"
+		},
+		{
+			"checksumSHA1": "Xi7V5kLPpTYcwslyN0c/IPmUwLc=",
+			"path": "github.com/radlinskii/octo-board",
+			"revision": "5a733d44cdffb396100a9d1683d59d999e7d4291",
+			"revisionTime": "2018-09-22T01:53:54Z"
+		}
+	],
+	"rootPath": "github.com/radlinskii/octo-board"
+}
