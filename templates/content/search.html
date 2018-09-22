@@ -2,22 +2,23 @@
     <link href="/static/style/search.css" rel="stylesheet" type="text/css">
 {{ end }}
 {{ define "content" }}
-<div>
-    <p>Label: {{ .Label }}</p>
-    <p>Language: {{ .Language }}</p>
-    <p>Organization: {{ .Organization }}</p>
+<div class="parameters">
+    {{ if  or .Label .Language .Organization }} Active Filters: {{ end }}
+    {{ if .Label }}<p class="labels">Label: {{ .Label }}</p>{{ end }}
+    {{ if .Language }}<p class="language">Language: {{ .Language }}</p>{{ end }}
+    {{ if .Organization }}<p class="org">Organization: {{ .Organization }}</p>{{ end }}
 </div>
 <div class="issuesTable">
 {{ range .Issues}}
     <div class="issue">
-        <h3>{{ .Repo }} #{{ .Number }}</h3>
-        <h1><a href="{{ .HTMLURL}}">{{ .Title }}</a></h1>
-        <p>{{ .Body }}</p>
-        <p>{{ .CommentsNumber }}</p>
+        <h3>{{ .Repo }}&nbsp;&nbsp;<span>#{{ .Number }}</span></h3>
+        <h2><a href="{{ .HTMLURL}}">{{ .Title }}</a></h2>
+        <p class="body">{{ .Body }}</p>
+        <p class="commentsNumber">{{ .CommentsNumber }} <img src="/static/img/comments.svg"></p>
     </div>
 {{ else }}
     <p>
-        make sure you didn't make any typos
+        No results :( Make sure you didn't make any typos.
     </p>
 {{end}}
 </div>

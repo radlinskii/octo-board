@@ -18,6 +18,7 @@ header {
     grid-template-columns: 30% 70%;
     background-color: #dddddd;
     min-width: 360px;
+    box-shadow: 2px 2px 2px #aaa;
 }
 
 
@@ -34,6 +35,12 @@ header {
     font-size: 70px;
     line-height: 70px;
     color: black;
+}
+
+.pageTitle img {
+    position: relative;
+    top: 4px;
+    height: 44px;
 }
 
 .form {
@@ -95,16 +102,8 @@ footer img {
 }
 
 @media only screen and (max-width: 1200px) {
-    .pageTitle {
-        display: none;
-    }
-
-    .form {
-        grid-template-columns:  20% 20% 20% 10%
-    }
-
     header {
-        height: 100px;
+        height: 170px;
         display: block;
         position: static;
     }

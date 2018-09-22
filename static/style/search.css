@@ -1,3 +1,67 @@
 body {
-    background-color: pink;
+    background-color: aliceblue;
+}
+
+.parameters p {
+    display: inline-block;
+    margin: 0 10px 20px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px #666;
+}
+
+.labels {
+    background-color: #5ba091;
+}
+
+.language {
+    background-color: cadetblue;
+}
+
+.org {
+    background-color: #588ca0;
+}
+
+.issuesTable {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-gap: 10px;
+}
+
+.issue {
+    background-color: #e1e7fd;
+    padding-left: 20px;
+    padding-right: 10px;
+    box-shadow: 2px 2px 1px #bbb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.issue h3 span {
+    color: rgba(139, 0, 0, 0.8);
+}
+
+.issue h2 {
+    margin: 0;
+}
+
+.issue h2 a {
+    color: rgba(13, 18, 98, 0.89);
+}
+
+.body {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+
+.commentsNumber {
+    margin-top: 0;
+}
+
+.commentsNumber img {
+    position: relative;
+    top: 8px;
+    height: 24px;
 }
