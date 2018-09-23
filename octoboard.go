@@ -19,7 +19,7 @@ func main() {
 	templatesMap := populateTemplates()
 
 	controller.StartUp(templatesMap)
-	log.Fatal(http.ListenAndServe(":"+port, new(middleware.GzipMiddleware)))
+	log.Fatal(http.ListenAndServe(":"+port, &middleware.TimeoutMiddleware{Next: new(middleware.GzipMiddleware)}))
 }
 
 func populateTemplates() map[string]*template.Template {
