@@ -17,7 +17,7 @@ header {
     display: grid;
     grid-template-columns: 30% 70%;
     background-color: #dddddd;
-    min-width: 320px;
+    min-width: 180px;
     box-shadow: 2px 2px 2px #aaa;
     z-index: 2;
 }
@@ -131,5 +131,15 @@ footer p span {
     .submit {
         position: static;
         top: 0;
+    }
+}
+
+@media only screen and (max-width: 275px) {
+    .input input{
+        width: 95%;
+    }
+
+    .submit input {
+        width: 100%;
     }
 }
