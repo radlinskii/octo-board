@@ -40,6 +40,7 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
+	w.Header().Add("Content-Type", "text/html")
 	err = s.searchTemplate.Execute(w, viewmodel.Content{Issues: issues, Label: label, Organization: org, Language: language})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
