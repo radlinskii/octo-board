@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// TimeoutMiddleware returns 408 status code if server exceeds timeout duration to send response.
 type TimeoutMiddleware struct {
 	Next http.Handler
 }
