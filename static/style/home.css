@@ -1,22 +1,6 @@
-html,body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
 body {
     background: aliceblue url("/static/img/spidertocat.png") no-repeat right top;
     background-size: 50% auto;
-}
-
-.pageWrapper {
-    min-height: 100%;
-    position: relative;
-}
-
-footer {
-    position: absolute;
-    bottom: 0;
 }
 
 header {
@@ -25,7 +9,6 @@ header {
 
 main {
     margin-top: 0;
-    padding-bottom: 40px;
 }
 
 h3 {
@@ -53,14 +36,5 @@ h3 {
     .pageWrapper {
         height: auto;
         min-height: 0;
-    }
-
-    main {
-        padding-bottom: 0;
-    }
-
-    footer {
-        position: static;
-        padding-bottom: 10px;
     }
 }
