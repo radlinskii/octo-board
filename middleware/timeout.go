@@ -15,7 +15,8 @@ func (tm TimeoutMiddleware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		tm.Next = http.DefaultServeMux
 	}
 	ctx := r.Context()
-	ctx, _ = context.WithTimeout(ctx, 30*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
+	defer cancel()
 	r.WithContext(ctx)
 	ch := make(chan struct{})
 	go func() {
