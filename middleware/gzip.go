@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// GzipMiddleware returns server response compressed to gzip format,
+// if request can accept gzip encoding.
 type GzipMiddleware struct {
 	Next http.Handler
 }
