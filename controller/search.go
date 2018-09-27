@@ -2,12 +2,13 @@ package controller
 
 import (
 	"context"
-	"github.com/radlinskii/octo-board/viewmodel"
 	"html/template"
 	"net/http"
 	"strings"
 
-	"github.com/google/go-github/github"
+	"github.com/radlinskii/octo-board/viewmodel"
+
+	"github.com/google/go-github/v18/github"
 )
 
 type search struct {
