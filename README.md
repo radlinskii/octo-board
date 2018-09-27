@@ -8,6 +8,6 @@ Depolyed at [octo-board.herokuapp.com](https://octo-board.herokuapp.com/).
 
 ### Build in development :wrench:
 
-Need to cover more code with tests and use `go modules`.
+Need to cover more code with tests.
 
 Feel free to open an issue or a pull request.
