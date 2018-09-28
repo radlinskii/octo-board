@@ -135,6 +135,10 @@ main {
         line-height: 50px;
     }
 
+    .pageTitle img {
+        height: 32px;
+    }
+
     .form form {
         display: block;
     }
