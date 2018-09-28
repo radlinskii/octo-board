@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /search
+Allow: /index.html

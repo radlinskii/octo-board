@@ -1,0 +1,21 @@
+{
+  "short_name": "OctoBoard",
+  "name": "OctoBoard",
+  "icons": [
+    {
+      "src": "/static/img/favicon/ftkdict-192-115567.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/static/img/favicon/ftkdict-512-115567.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F0F8FF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#DDDDDD"
+}
