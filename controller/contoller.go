@@ -21,4 +21,7 @@ func StartUp(templatesMap map[string]*template.Template) {
 	http.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "robots.txt")
 	})
+	http.HandleFunc("/service-worker.js", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "service-worker.js")
+	})
 }
