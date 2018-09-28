@@ -18,4 +18,7 @@ func StartUp(templatesMap map[string]*template.Template) {
 	homeController.registerRoutes()
 	searchController.registerRoutes()
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "robots.txt")
+	})
 }
