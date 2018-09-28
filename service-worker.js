@@ -6,13 +6,15 @@ var urlsToCache = [
   '/static/style/search.css',
   '/static/style/home.css',
   '/static/js/index.js',
-  '/img/comments.svg',
-  '/img/github-logo.svg',
-  '/img/octocat.png',
-  '/img/spidertocat.png',
-  'img/favicon/favicon.ico',
-  'img/favicon/ftkdict-120-115567.png',
-  'img/favicon/ftkdict-152-115567.png',
+  '/static/img/comments.svg',
+  '/static/img/github-logo.svg',
+  '/static/img/octocat.png',
+  '/static/img/spidertocat.png',
+  '/static/img/favicon/favicon.ico',
+  '/static/img/favicon/ftkdict-120-115567.png',
+  '/static/img/favicon/ftkdict-152-115567.png',
+  '/static/img/favicon/ftkdict-192-115567.png',
+  '/static/img/favicon/ftkdict-512-115567.png',
 ];
 
 self.addEventListener('install', event => {
