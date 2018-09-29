@@ -4,6 +4,7 @@ import (
 	"context"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/radlinskii/octo-board/viewmodel"
@@ -26,8 +27,10 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	language := buildQuery(&query, r, "language")
 	org := buildQuery(&query, r, "org")
 
+	page := getPage(r)
+
 	client := github.NewClient(nil)
-	issuesPayload, err := fetchIssues(client, query)
+	issuesPayload, err := fetchIssues(client, query, page)
 
 	var issues []viewmodel.GithubIssue
 	for _, issue := range issuesPayload.Issues {
@@ -42,7 +45,14 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add("Content-Type", "text/html")
-	err = s.searchTemplate.Execute(w, viewmodel.Content{Issues: issues, Label: label, Organization: org, Language: language})
+	err = s.searchTemplate.Execute(w, viewmodel.Content{
+		Issues:       issues,
+		Label:        label,
+		Organization: org,
+		Language:     language,
+		NextPage:     page + 1,
+		PrevPage:     page - 1,
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -50,6 +60,18 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 
 func getRepositoryFullName(url string) string {
 	return strings.Replace(url, "https://api.github.com/repos/", "", 1)
+}
+
+func getPage(r *http.Request) int {
+	ps := r.URL.Query().Get("page")
+	if len(ps) < 1 {
+		return 1
+	}
+	page, err := strconv.Atoi(ps)
+	if err != nil {
+		return 1
+	}
+	return page
 }
 
 func buildQuery(query *string, r *http.Request, opt string) string {
@@ -65,8 +87,8 @@ func buildQuery(query *string, r *http.Request, opt string) string {
 	return parameters
 }
 
-func fetchIssues(client *github.Client, query string) (*github.IssuesSearchResult, error) {
-	opts := &github.SearchOptions{Sort: "created", Order: "desc"}
+func fetchIssues(client *github.Client, query string, page int) (*github.IssuesSearchResult, error) {
+	opts := &github.SearchOptions{Sort: "created", Order: "desc", ListOptions: github.ListOptions{PerPage: 20, Page: page}}
 	res, _, err := client.Search.Issues(context.Background(), query, opts)
 	return res, err
 }
