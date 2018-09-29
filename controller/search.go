@@ -20,7 +20,7 @@ func (s search) registerRoutes() {
 }
 
 func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
-	query := "is:open"
+	query := "type:issue state:open"
 
 	label := buildQuery(&query, r, "label")
 	language := buildQuery(&query, r, "language")
