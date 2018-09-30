@@ -5,10 +5,11 @@
 {{ define "content" }}
 <div class="parameters">
     {{ if  or .Label .Language .Organization }}
-        active filters:
     {{ if .Label }}<p class="labels">Label: {{ .Label }}</p>{{ end }}
     {{ if .Language }}<p class="language">Language: {{ .Language }}</p>{{ end }}
     {{ if .Organization }}<p class="org">Organization: {{ .Organization }}</p>{{ end }}
+    {{ if .Uncommented }}<p class="uncommented">uncommented</p>{{ end }}
+    {{ if .Unassigned }}<p class="unassigned">unassigned</p>{{ end }}
     {{ else }}
         <p class="noFilters">no active filters</p>
     {{ end }}

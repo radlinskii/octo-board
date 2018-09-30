@@ -23,10 +23,12 @@ func (s search) registerRoutes() {
 func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	query := "type:issue state:open"
 
-	if checkFilter(r, "uncommented") {
+	cf := checkFilter(r, "uncommented")
+	af := checkFilter(r, "unassigned")
+	if cf {
 		query += " comments:0"
 	}
-	if checkFilter(r, "unassigned") {
+	if af {
 		query += " no:assignee"
 	}
 
@@ -57,6 +59,8 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 		Label:        label,
 		Organization: org,
 		Language:     language,
+		Uncommented:  cf,
+		Unassigned:   af,
 		NextPage:     page + 1,
 		PrevPage:     page - 1,
 	})

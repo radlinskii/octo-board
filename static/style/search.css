@@ -3,6 +3,7 @@ body {
 }
 
 .parameters p {
+    font-weight: bolder;
     display: inline-block;
     margin: 0 10px 20px;
     padding: 5px;
@@ -23,6 +24,14 @@ body {
 
 .org {
     background-color: #588ca0;
+}
+
+.uncommented {
+    background-color: #7b78a2;
+}
+
+.unassigned {
+    background-color: #b38db9;
 }
 
 .issuesTable {
