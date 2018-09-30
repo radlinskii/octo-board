@@ -85,3 +85,28 @@ body {
     height: 24px;
     z-index: 1;
 }
+
+.pageNav {
+    text-align: center;
+}
+
+.pageNavButton {
+    font-size: 20px;
+    padding: 5px;
+    margin: 20px 0 0 0;
+    width: 40%;
+    max-width: 200px;
+    min-width: fit-content;
+    background-color: #fdfdfd;
+    box-shadow: 1px 1px 1px #bbb;
+}
+
+.next {
+    margin-left: 5px;
+}
+
+@media only screen and (max-width: 850px) {
+    .pageNavButton {
+        font-size: 14px;
+    }
+}
