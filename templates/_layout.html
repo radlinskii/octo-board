@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon-precomposed" href="/static/img/favicon/ftkdict-152-115567.png">
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/img/favicon/ftkdict-120-115567.png">
     <link href="/static/style/main.css" rel="stylesheet" type="text/css">
-{{ block "head" . }}{{ end }}
+{{block "head" .}}{{end}}
 </head>
 <body>
 <div class="pageWrapper">
@@ -24,8 +24,8 @@
                     <input type="text" name="label" title="label" placeholder="bug, hacktoberfest">
                 </div>
                 <div class="input">
-                <label for="language">Language:</label>
-                <input type="text" name="language" title="language" placeholder="go">
+                    <label for="language">Language:</label>
+                    <input type="text" name="language" title="language" placeholder="go">
                 </div>
                 <div class="input">
                     <label for="org">Organization:</label>
@@ -38,7 +38,7 @@
         </div>
     </header>
     <main>
-        {{ template "content" . }}
+        {{template "content" .}}
     </main>
 </div>
 <footer>
