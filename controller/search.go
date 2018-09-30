@@ -32,11 +32,16 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 		query += " no:assignee"
 	}
 
-	label := buildQuery(&query, r, "label")
+	page := getPage(r)
+
 	language := buildQuery(&query, r, "language")
 	org := buildQuery(&query, r, "org")
+	label := buildQuery(&query, r, "label")
 
-	page := getPage(r)
+	labels := strings.Split(label, ",")
+	for _, l := range labels {
+		l = strings.Trim(l, " ")
+	}
 
 	client := github.NewClient(nil)
 	issuesPayload, err := fetchIssues(client, query, page)
@@ -57,6 +62,7 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	err = s.searchTemplate.Execute(w, viewmodel.Content{
 		Issues:       issues,
 		Label:        label,
+		Labels:       labels,
 		Organization: org,
 		Language:     language,
 		Uncommented:  cf,

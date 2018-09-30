@@ -5,7 +5,7 @@
 {{define "content"}}
 <div class="parameters">
     {{if  or .Label .Language .Organization}}
-    {{if .Label}}<p class="labels">Label: {{.Label}}</p>{{end}}
+    {{range .Labels}}<p class="labels">Label: {{.}}</p>{{end}}
     {{if .Language}}<p class="language">Language: {{.Language}}</p>{{end}}
     {{if .Organization}}<p class="org">Organization: {{.Organization}}</p>{{end}}
     {{if .Uncommented}}<p class="uncommented">uncommented</p>{{end}}
