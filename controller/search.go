@@ -23,6 +23,13 @@ func (s search) registerRoutes() {
 func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	query := "type:issue state:open"
 
+	if checkFilter(r, "uncommented") {
+		query += " comments:0"
+	}
+	if checkFilter(r, "unassigned") {
+		query += " no:assignee"
+	}
+
 	label := buildQuery(&query, r, "label")
 	language := buildQuery(&query, r, "language")
 	org := buildQuery(&query, r, "org")
@@ -56,6 +63,21 @@ func (s search) handleSearch(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func checkFilter(r *http.Request, filter string) bool {
+	fs := r.URL.Query().Get(filter)
+	if len(fs) < 1 {
+		return false
+	}
+	f, err := strconv.Atoi(fs)
+	if err != nil {
+		return false
+	}
+	if f != 1 {
+		return false
+	}
+	return true
 }
 
 func getRepositoryFullName(url string) string {
