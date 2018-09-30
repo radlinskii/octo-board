@@ -107,6 +107,7 @@ header {
     padding: 5px;
     color: #000;
     background-color: #fdfdfd;
+    box-shadow: 2px 2px 1px #bbb;
 }
 
 main {

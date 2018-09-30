@@ -28,10 +28,12 @@
     </p>
 {{end}}
 </div>
-{{ if .PrevPage }}
-<a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.PrevPage}}"><button>Previous Page</button></a>
-{{ end }}
-{{  if eq (len .Issues) 20 }}
-<a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.NextPage}}"><button>Next Page</button></a>
-{{ end }}
+<div class="pageNav">
+    {{ if .PrevPage }}
+        <a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.PrevPage}}"><button class="pageNavButton prev">Previous Page</button></a>
+    {{ end }}
+    {{  if eq (len .Issues) 20 }}
+        <a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.NextPage}}"><button class="pageNavButton next">Next Page</button></a>
+    {{ end }}
+</div>
 {{ end }}
