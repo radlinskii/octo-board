@@ -2,6 +2,7 @@ package viewmodel
 
 // Content is a type that will be dispatched to home page template.
 type Content struct {
+	Labels                        []string
 	Label, Organization, Language string
 	Uncommented, Unassigned       bool
 	NextPage                      int
