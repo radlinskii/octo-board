@@ -1,28 +1,28 @@
-{{ define "head" }}
+{{define "head"}}
     <link rel="canonical" href="https://octo-board.herokuapp.com/search"/>
     <link href="/static/style/search.css" rel="stylesheet" type="text/css">
-{{ end }}
-{{ define "content" }}
+{{end}}
+{{define "content"}}
 <div class="parameters">
-    {{ if  or .Label .Language .Organization }}
-    {{ if .Label }}<p class="labels">Label: {{ .Label }}</p>{{ end }}
-    {{ if .Language }}<p class="language">Language: {{ .Language }}</p>{{ end }}
-    {{ if .Organization }}<p class="org">Organization: {{ .Organization }}</p>{{ end }}
-    {{ if .Uncommented }}<p class="uncommented">uncommented</p>{{ end }}
-    {{ if .Unassigned }}<p class="unassigned">unassigned</p>{{ end }}
-    {{ else }}
+    {{if  or .Label .Language .Organization}}
+    {{if .Label}}<p class="labels">Label: {{.Label}}</p>{{end}}
+    {{if .Language}}<p class="language">Language: {{.Language}}</p>{{end}}
+    {{if .Organization}}<p class="org">Organization: {{.Organization}}</p>{{end}}
+    {{if .Uncommented}}<p class="uncommented">uncommented</p>{{end}}
+    {{if .Unassigned}}<p class="unassigned">unassigned</p>{{end}}
+    {{else}}
         <p class="noFilters">no active filters</p>
-    {{ end }}
+    {{end}}
 </div>
 <div class="issuesTable">
-{{ range .Issues}}
+{{range .Issues}}
     <div class="issue">
-        <h3>{{ .Repo }}&nbsp;&nbsp;<span>#{{ .Number }}</span></h3>
-        <h2><a href="{{.HTMLURL}}">{{ .Title }}</a></h2>
-        <p class="body">{{ .Body }}</p>
-        <p class="commentsNumber">{{ .CommentsNumber }} <img src="/static/img/comments.svg" alt="number of comments"></p>
+        <h3>{{.Repo}}&nbsp;&nbsp;<span>#{{.Number}}</span></h3>
+        <h2><a href="{{.HTMLURL}}">{{.Title}}</a></h2>
+        <p class="body">{{.Body}}</p>
+        <p class="commentsNumber">{{.CommentsNumber}} <img src="/static/img/comments.svg" alt="number of comments"></p>
     </div>
-{{ else }}
+{{else}}
     <p>
         No results :(<br><br>
         Make sure you didn't make any typos.
@@ -30,11 +30,11 @@
 {{end}}
 </div>
 <div class="pageNav">
-    {{ if .PrevPage }}
+    {{if .PrevPage}}
         <a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.PrevPage}}"><button class="pageNavButton prev">Previous Page</button></a>
-    {{ end }}
-    {{  if eq (len .Issues) 20 }}
+    {{end}}
+    {{ if eq (len .Issues) 20}}
         <a href="/search?label={{.Label}}&language={{.Language}}&org={{.Organization}}&page={{.NextPage}}"><button class="pageNavButton next">Next Page</button></a>
-    {{ end }}
+    {{end}}
 </div>
-{{ end }}
+{{end}}
