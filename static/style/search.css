@@ -101,13 +101,19 @@ body {
 
 .pageNavButton {
     font-size: 20px;
-    padding: 5px;
     margin: 20px 0 0 0;
     width: 40%;
     max-width: 200px;
     min-width: fit-content;
     background-color: #fdfdfd;
     box-shadow: 1px 1px 1px #bbb;
+}
+
+.pageNavButton a {
+    text-decoration: inherit;
+    color: inherit;
+    display: block;
+    padding: 5px;
 }
 
 .next {
