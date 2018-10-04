@@ -6,7 +6,7 @@ body {
     font-weight: bolder;
     display: inline-block;
     margin: 0 10px 20px;
-    padding: 5px;
+    padding: 5px;   
     box-shadow: 2px 2px 2px #666;
 }
 
@@ -96,17 +96,25 @@ body {
 }
 
 .pageNav {
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .pageNavButton {
     font-size: 20px;
-    margin: 20px 0 0 0;
     width: 40%;
     max-width: 200px;
     min-width: fit-content;
     background-color: #fdfdfd;
     box-shadow: 1px 1px 1px #bbb;
+    margin: 20px 10px;
+    padding: 8px 0;
+    text-align: center;
+}
+
+.pageNavButton:hover {
+    background-color: #e8e8e8;
+    transition: all 0.2s;
 }
 
 .pageNavButton a {
