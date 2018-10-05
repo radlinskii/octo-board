@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/radlinskii/octo-board/controller"
 	"github.com/radlinskii/octo-board/middleware"
+
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -19,7 +20,7 @@ func main() {
 	templatesMap := populateTemplates()
 
 	controller.StartUp(templatesMap)
-	log.Fatal(http.ListenAndServe(":"+port, &middleware.TimeoutMiddleware{Next: new(middleware.GzipMiddleware)}))
+	log.Fatal(http.ListenAndServe(":"+port, &middleware.TimeoutMiddleware{Next: &middleware.GzipMiddleware{Next: new(middleware.CSSMinify)}}))
 }
 
 func populateTemplates() map[string]*template.Template {
